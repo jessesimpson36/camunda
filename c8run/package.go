@@ -54,7 +54,8 @@ func downloadGHArtifact(camundaVersion string, camundaFilePath string) error {
 	cmd := exec.Command("gh", "release", "download", "--repo", "jessesimpson36/camunda", camundaVersion, "-p", camundaFilePath)
 	err = cmd.Run()
 	if err != nil {
-		return fmt.Println("downloadGHArtifact: failed to download artifact %s. Continuing since the release can be obtained elsewhere.", err.Error())
+		fmt.Println("downloadGHArtifact: failed to download artifact %s. Continuing since the release can be obtained elsewhere.", err.Error())
+                return nil
 	}
 	return nil
 }
