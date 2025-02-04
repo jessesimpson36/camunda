@@ -43,18 +43,6 @@ jobs:
         with:
           ref: ${{ inputs.branch }}
 
-      - name: Import Secrets
-        id: secrets
-        uses: hashicorp/vault-action@d1720f055e0635fd932a1d2a48f87a666a57906c # v3.0.0
-        with:
-          url: ${{ secrets.VAULT_ADDR }}
-          method: approle
-          roleId: ${{ secrets.VAULT_ROLE_ID }}
-          secretId: ${{ secrets.VAULT_SECRET_ID }}
-          secrets: |
-            secret/data/products/distribution/ci NEXUS_USERNAME;
-            secret/data/products/distribution/ci NEXUS_PASSWORD;
-
       - uses: actions/setup-go@v5
         with:
           go-version: '>=1.23.1'
@@ -69,8 +57,8 @@ jobs:
         shell: bash
         working-directory: ./c8run
         env:
-          JAVA_ARTIFACTS_USER: ${{ steps.secrets.outputs.NEXUS_USERNAME }}
-          JAVA_ARTIFACTS_PASSWORD: ${{ steps.secrets.outputs.NEXUS_PASSWORD }}
+          JAVA_ARTIFACTS_USER: ${{ secrets.JAVA_ARTIFACTS_USER }}
+          JAVA_ARTIFACTS_PASSWORD: ${{ secrets.JAVA_ARTIFACTS_PASSWORD }}
 
       - name: upload asset
         run: gh release upload "$CAMUNDA_RELEASE" ./c8run/camunda8-run-*
