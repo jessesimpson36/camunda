@@ -59,7 +59,6 @@ jobs:
         env:
           JAVA_ARTIFACTS_USER: ${{ secrets.JAVA_ARTIFACTS_USER }}
           JAVA_ARTIFACTS_PASSWORD: ${{ secrets.JAVA_ARTIFACTS_PASSWORD }}
-          CAMUNDA_VERSION: "8.6.7"
 
       - name: upload asset
         run: gh release upload "$CAMUNDA_RELEASE" ./c8run/camunda8-run-*
